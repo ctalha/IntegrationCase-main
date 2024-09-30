@@ -1,0 +1,13 @@
+1 - The Redlock algorithm is used in systems with multiple Redis servers to ensure that if one server goes down, the lock system still works. It helps reduce race conditions and makes locking more reliable. However, there are some issues with this method. For example, if there is network delay between servers or if the server clocks are not synchronized, there could be problems with consistency or locking.
+
+2 - Another issue is if more than one Redis server crashes, the Redlock algorithm might not work because it needs a majority of servers to function properly. To fix this, we could run a health check before trying to lock, but this doesn't always guarantee success.
+
+3 - Network slowdowns can also cause problems. If servers take too long to communicate, the lock time might not be accurate, causing issues when releasing locks or locking. If a Redis server has a problem when releasing the lock, it could lead to incorrect releases and inconsistencies.
+
+4 - Redlock is also an eventually consistent algorithm, meaning it doesn't promise 100% data consistency all the time. To avoid these issues, we could use systems like Zookeeper for better locking.
+
+5 - Under a high number of requests, Redis could become a bottleneck in the system. This locking may be the cause of inconsistency
+
+6 - Logging for Distributed locking 
+
+7 - In terms of idempotency, the current system prevents duplicate requests while the lock is in place using a token created from the content. But after the lock is released, the same content could still be processed again within a short time (e.g., 40 seconds). If the database does not allow duplicate data, a better idempotency system would help. With full idempotency, if the same request comes again, the system can return the previous result from a cache (like Redis) or NoSql database (like MongoDB) instead of processing it again.

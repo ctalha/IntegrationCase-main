@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Integration": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
